@@ -1,0 +1,6 @@
+github.com/BurntSushi/toml v1.4.0 h1:kuoIxZQy2WRRk1pttg9asf+WVv6tWQuBNVmK8+nqPr0=
+github.com/BurntSushi/toml v1.4.0/go.mod h1:ukJfTF/6rtPPRCnwkur4qwRxa8vTRFBF0uk2lLoLwho=
+github.com/DeepSourceCorp/artifacts v0.0.0-20240215100941-12fb1d7e955c h1:Pt/BKl0HxN7FPAh98ipDTuWBFlZ+N9yepPr4vv7h1Wc=
+github.com/DeepSourceCorp/artifacts v0.0.0-20240215100941-12fb1d7e955c/go.mod h1:YMB+NGili5RkbZFCCEcvdTdnoGySJ9RNag541eU+FkA=
+github.com/bmatcuk/doublestar/v4 v4.6.1 h1:FH9SifrbvJhnlQpztAx++wlkk70QBf0iBWDwNy7PA4I=
+github.com/bmatcuk/doublestar/v4 v4.6.1/go.mod h1:xBQ8jztBU6kakFMg+8WGxn0c6z1fTSPVIjEY1Wr7jzc=
