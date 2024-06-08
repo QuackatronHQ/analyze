@@ -59,7 +59,7 @@ chmod +x run.sh
 ./run.sh analyze . <LANGUAGE>
 ```
 
-> Note: Currently supported LANGUAGE values are: `go`, `python`, `java`, `ruby`, `javascript`, `docker`
+> Note: Currently supported LANGUAGE values are: `go`, `python`, `java`, `ruby`, `javascript`, `docker`, `csharp`
 
 - Once the analysis is complete, the results will be available in `analysis_results.json` in the current working directory.
 

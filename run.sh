@@ -7,7 +7,7 @@ function setup_docker {
   docker login ghcr.io -u USERNAME --password "$GH_PAT_DEEPSOURCE"
 
   # Pull the latest images for various languages
-  local languages=("go" "java" "javascript" "python" "docker" "ruby")
+  local languages=("go" "java" "javascript" "python" "docker" "ruby" "csharp")
   for lang in "${languages[@]}"; do
     echo "Pulling image for $lang.."
     docker pull "ghcr.io/quackatronhq/$lang:latest"
