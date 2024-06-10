@@ -3,38 +3,13 @@
 ## Requirements
 - Docker Desktop 4.30.0
 - GitHub CLI gh version 2.50.0
-- wget
+- wget (`brew install wget`)
+- jq (`brew install jq`)
 
 > Note: This current setup only supports arm64 architecture.
 
 ## Setup repository for analysis
-- Create a `.deepsource.toml` file in the root of the repository. Ensure all values and metadata are configured properly in `.deepsource.toml` file for accurate analysis results. Refer to the [respective analyzer's docs](https://docs.deepsource.com/docs/analyzers) for more information.
-
-> Here's an example `.deepsource.toml` file for a Python repository:
-
-```sh
-version = 1
-
-test_patterns = [
-  "tests/**",
-  "test_*.py"
-]
-
-exclude_patterns = [
-  "migrations/**",
-  "**/examples/**"
-]
-
-[[analyzers]]
-name = "python"
-enabled = true
-dependency_file_paths = ["requirements.txt"]
-
-  [analyzers.meta]
-  runtime_version = "3.x.x"
-  type_checker = "mypy"
-  max_line_length = 80
-```
+- Create a `.deepsource.toml` file in the root of the repository. Ensure all values and metadata are configured properly in `.deepsource.toml` file for accurate analysis results. Refer to the [respective analyzer's docs](https://docs.deepsource.com/docs/analyzers) for more information. Refer to the `.deepsource.toml configuration file examples` section below for example configurations.
 
 ## Setup environment
 - Authenticate `gh` with GitHub - `gh auth login`
@@ -61,12 +36,7 @@ chmod +x run.sh
 
 > Note: Currently supported LANGUAGE values are: `go`, `python`, `java`, `ruby`, `javascript`, `docker`, `csharp`
 
-- Once the analysis is complete, the results will be available in `analysis_results.json` in the current working directory.
-
-- To prettify `analysis_results.json`, make sure you have `jq` installed (`brew install jq`) and run the following command:
-```sh
-./run.sh prettify
-```
+- Once the analysis is complete, the results will be available in `analysis_results_<LANGUAGE>.json` and `analysis_results_<LANGUAGE>_pretty.json` files in the current working directory.
 
 ## Understanding the results
 - The results file is JSON formatted and contains the issues in `issues` key. Each issue has the following keys:
@@ -82,9 +52,134 @@ chmod +x run.sh
             - `line`: The line number where the issue ends.
             - `column`: The column number where the issue ends.
 
+## Limitations
+- This setup supports analyzing only one language per repository at any given time. If you need to analyze multiple languages within the same repository, please conduct each analysis sequentially. Each analyzer's results are stored as `analysis_results_<LANGUAGE>.json` and `analysis_results_<LANGUAGE>_pretty.json` in the current working directory.
+- Analysis is run on all files of the repository (excluding the patterns configured in `exclude_patterns`). Individual file analysis is not supported, unless it is the only file in the directory/repository.
+
 ## Cleanup
 To cleanup all DeepSource generated files, run the following command:
 ```
 ./run cleanup
 ```
 > Note: This will not cleanup the locally downloaded docker images.
+
+## `.deepsource.toml` configuration file examples
+
+### Python
+
+```sh
+version = 1
+
+test_patterns = [
+  "tests/**",
+  "test_*.py"
+]
+
+exclude_patterns = [
+  "migrations/**",
+  "**/examples/**"
+]
+
+[[analyzers]]
+name = "python"
+
+  [analyzers.meta]
+  runtime_version = "3.x.x"
+```
+
+### Go
+
+```sh
+version = 1
+
+test_patterns = [
+  "tests/*_test.go",
+  "**/*_test.go"
+]
+
+[[analyzers]]
+name = "go"
+enabled = true
+
+  [analyzers.meta]
+  import_root = "github.com/DeepSourceCorp/marvin-go"
+```
+
+### Java
+
+```sh
+version = 1
+
+test_patterns = [
+  "test/**",
+  "*Test.java"
+]
+
+[[analyzers]]
+name = "java"
+
+  [analyzers.meta]
+  runtime_version = "21"
+```
+
+### Ruby
+
+```sh
+version = 1
+
+test_patterns = [
+  "test/**",
+  "*_test.rb"
+]
+
+exclude_patterns = [
+  "vendor/**",
+  "**/examples/**"
+]
+
+[[analyzers]]
+name = "ruby"
+```
+
+### JavaScript
+
+```sh
+version = 1
+
+test_patterns = ["*/test/**"]
+
+exclude_patterns = [
+    "public/**,",
+    "dist/**"
+]
+
+[[analyzers]]
+name = "javascript"
+```
+
+### C#
+
+```sh
+version = 1
+
+test_patterns = [
+  "tests/**",
+  "*Test.cs"
+]
+
+exclude_patterns = [
+  "**/examples/**"
+]
+
+[[analyzers]]
+name = "csharp"
+```
+
+### Docker
+
+```sh
+version = 1
+
+[[analyzers]]
+name = "docker"
+```
